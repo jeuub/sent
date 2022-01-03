@@ -1,5 +1,5 @@
 {
-  "name": "notely",
+  "name": "sent",
   "version": "1.0.0",
   "description": "web-application for making notes (server side)",
   "main": "index.js",
@@ -24,6 +24,7 @@
     "nodemon": "^2.0.13"
   },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node HTTPS=true src/index.js"
   }
 }

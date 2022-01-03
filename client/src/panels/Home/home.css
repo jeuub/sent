@@ -1,0 +1,19 @@
+.home-panel > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 50px;
+}
+
+.home-panel__greeting > div {
+    display: flex;
+    flex-direction: row;
+}
+
+.home-panel__actions > div{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
