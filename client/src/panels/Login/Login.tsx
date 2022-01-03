@@ -27,14 +27,13 @@ interface Props {
 
 const Login = ({ id, go, fetchedUser }: Props) => {
   const [createUser, { error, loading }] = useMutation(CREATE_USER);
-  const { data } = useQuery(fetchFeed);
 
   const signUp = () => {
     try {
       createUser({
         variables: {
           username: `${fetchedUser.first_name} ${fetchedUser.last_name}`,
-          vkid: fetchedUser.id,
+          vkid: `${fetchedUser.id}`,
         },
       });
     } catch (err) {
@@ -45,6 +44,7 @@ const Login = ({ id, go, fetchedUser }: Props) => {
     <Panel id={id}>
       <Loader isLoading />
       <button onClick={signUp}>Рег</button>
+      {loading}
     </Panel>
   );
 };
