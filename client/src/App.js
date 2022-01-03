@@ -31,12 +31,15 @@ const errorLink = onError(({ graphqlErrors, networkErrors }) => {
 
 const link = from([
   errorLink,
-  new HttpLink({ uri: "http://127.0.0.1:3000/api" }),
+  new HttpLink({ uri: "https://sent-server.herokuapp.com/api" }),
 ]);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: link,
+  fetchOptions: {
+    mode: "no-cors",
+  },
 });
 
 const App = () => {

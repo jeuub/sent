@@ -45,11 +45,17 @@ const server = new ApolloServer({
   },
 });
 
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+};
+
 const startServer = async () => {
   await server.start();
   server.applyMiddleware({
     app,
     path: grapghQLURL,
+    cors: corsOptions,
   });
 };
 

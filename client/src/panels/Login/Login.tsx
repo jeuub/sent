@@ -16,31 +16,35 @@ import {
 
 import "./login.css";
 import { CREATE_USER } from "../../GraphQL/Mutations";
-import { useMutation } from "@apollo/client";
+import { fetchFeed } from "../../GraphQL/Queries";
+import { useMutation, useQuery } from "@apollo/client";
 
 interface Props {
-  id: string;
-  go: unknown;
+  id: any;
+  go: any;
   fetchedUser: any;
 }
 
 const Login = ({ id, go, fetchedUser }: Props) => {
-  const [isLoading, setIsLoading] = useState(true);
   const [createUser, { error, loading }] = useMutation(CREATE_USER);
+  const { data } = useQuery(fetchFeed);
 
   const signUp = () => {
-    createUser({
-      variables: {
-        username: `${fetchedUser.first_name} ${fetchedUser.last_name}`,
-        vkid: fetchedUser.id,
-      },
-    });
+    try {
+      createUser({
+        variables: {
+          username: `${fetchedUser.first_name} ${fetchedUser.last_name}`,
+          vkid: fetchedUser.id,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
-  console.log(fetchedUser);
   return (
     <Panel id={id}>
       <Loader isLoading />
-      <button onClick={signUp}> Рег</button>
+      <button onClick={signUp}>Рег</button>
     </Panel>
   );
 };
