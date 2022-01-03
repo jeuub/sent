@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Panel, PanelHeader, Header, Button, Group, Cell, Div, Avatar } from '@vkontakte/vkui';
+import { Panel, PanelHeader, Header, Button, Group, Cell, Div, Avatar, Title } from '@vkontakte/vkui';
 interface VkProps {
 	id: any;
 	go:any;
@@ -11,15 +11,15 @@ interface VkProps {
 
 const Home = ({ id, go, fetchedUser }: VkProps) => (
 	<Panel id={id}>
-		<PanelHeader>Example</PanelHeader>
 		{fetchedUser &&
-		<Group header={<Header mode="secondary">User Data Fetched with VK Bridge</Header>}>
+		<Group>
+			<Title level="1" weight="semibold" style={{ marginBottom: 16 }}>
+				<strong>{fetchedUser.first_name} {fetchedUser.last_name}</strong>,<br/>
+				приветствуем тебя в приложении SENT.
+			</Title>
 			<Cell
 				before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-				description={fetchedUser.city && fetchedUser.city.title ? fetchedUser.city.title : ''}
-			>
-				{`${fetchedUser.first_name} ${fetchedUser.last_name}`}
-			</Cell>
+			/>
 		</Group>}
 
 		<Group header={<Header mode="secondary">Navigation Example</Header>}>
