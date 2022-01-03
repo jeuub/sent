@@ -25,6 +25,6 @@
   },
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node HTTPS=true src/index.js"
+    "start": "node src/index.js"
   }
 }
