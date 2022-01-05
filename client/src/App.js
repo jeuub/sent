@@ -7,10 +7,6 @@ import {
   AppRoot,
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
-
-import Home from "./panels/Home/Home";
-import Login from "./panels/Login/Login";
-
 import {
   ApolloClient,
   InMemoryCache,
@@ -18,8 +14,11 @@ import {
   HttpLink,
   from,
 } from "@apollo/client";
-
 import { onError } from "@apollo/client/link/error";
+
+import Home from "./panels/Home/Home";
+import Login from "./panels/Login/Login";
+import Main from "./panels/Main/Main";
 
 const errorLink = onError(({ graphqlErrors, networkErrors }) => {
   if (graphqlErrors) {
@@ -61,10 +60,14 @@ const App = () => {
       setPopout(null);
     }
     fetchData();
+
+    return () => {
+      routerUnsubscribe();
+    };
   }, []);
 
-  const go = (e) => {
-    setActivePanel(e.currentTarget.dataset.to);
+  const go = (target) => {
+    setActivePanel(target);
   };
 
   return (
@@ -74,6 +77,7 @@ const App = () => {
           <View activePanel={activePanel} popout={popout}>
             <Home id="home" fetchedUser={fetchedUser} go={go} />
             <Login id="login" fetchedUser={fetchedUser} go={go} />
+            <Main id="main" fetchedUser={fetchedUser} go={go} />
           </View>
         </AppRoot>
       </AdaptivityProvider>

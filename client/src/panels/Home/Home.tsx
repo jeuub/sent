@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-
 import {
   Panel,
-  PanelHeader,
-  Header,
   Button,
   Group,
   Cell,
-  Div,
   Avatar,
   Title,
+  Link,
 } from "@vkontakte/vkui";
 import "./home.css";
 
@@ -20,37 +17,54 @@ interface Props {
   fetchedUser: any;
 }
 
-const Home = ({ id, go, fetchedUser }: Props) => (
-  <Panel id={id} className="home-panel">
-    {fetchedUser && (
-      <Group className="home-panel__greeting">
-        <Title level="1" weight="semibold" style={{ marginBottom: 16 }}>
-          <strong>
-            {fetchedUser.first_name} {fetchedUser.last_name}
-          </strong>
-          ,<br />
-          приветствуем тебя в приложении <span>SENT</span>.
-        </Title>
-        <Cell
-          before={
-            fetchedUser.photo_200 ? (
-              <Avatar src={fetchedUser.photo_200} />
-            ) : null
-          }
-        />
-      </Group>
-    )}
+const Home = ({ id, go, fetchedUser }: Props) => {
+  useEffect(() => {
+    localStorage.getItem("sent-token") ? go("main") : null;
+  }, []);
+  return (
+    <Panel id={id} className="home-panel">
+      {fetchedUser && (
+        <Group className="home-panel__greeting">
+          <Title level="1" weight="semibold" style={{ marginBottom: 16 }}>
+            <strong>
+              {fetchedUser.first_name} {fetchedUser.last_name}
+            </strong>
+            ,<br />
+            приветствуем тебя в приложении <span>SENT</span>.
+          </Title>
+          <Cell
+            before={
+              fetchedUser.photo_200 ? (
+                <Avatar src={fetchedUser.photo_200} />
+              ) : null
+            }
+          />
+        </Group>
+      )}
 
-    <Group className="home-panel__actions">
-      <Button stretched size="l" mode="tertiary" onClick={go} data-to="persik">
-        Узнать больше.
-      </Button>
-      <Button stretched size="l" mode="secondary" onClick={go} data-to="login">
-        Настроить sent.
-      </Button>
-    </Group>
-  </Panel>
-);
+      <Group className="home-panel__actions">
+        <Link
+          href="https://google.com"
+          target="_blank"
+          className="home-panel__link"
+        >
+          Узнать больше.
+        </Link>
+        <Button stretched size="l" mode="secondary" onClick={() => go("login")}>
+          Настроить sent.
+        </Button>
+        <Button
+          stretched
+          size="l"
+          mode="secondary"
+          onClick={() => localStorage.clear()}
+        >
+          Удалить данные
+        </Button>
+      </Group>
+    </Panel>
+  );
+};
 
 Home.propTypes = {
   id: PropTypes.string.isRequired,
