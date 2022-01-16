@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NEW_NOTE } from "../../GraphQL/Mutations";
 import { MY_NOTE } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-  Panel,
-  PanelHeader,
-  Header,
-  Button,
-  Group,
-  Cell,
-  Div,
-  Avatar,
-  Title,
-  Spinner,
-  FormItem,
-  Input,
-} from "@vkontakte/vkui";
+import { Panel, Button, FormItem, Input } from "@vkontakte/vkui";
 import { Icon24Add } from "@vkontakte/icons";
 
 interface Props {
@@ -32,7 +19,7 @@ const Greeting = ({ id, fetchedUser, go }: Props) => {
 
   const createNote = async () => {
     try {
-      const data = await createNoteMutation({
+      await createNoteMutation({
         variables: {
           content: phrase,
         },
@@ -49,9 +36,7 @@ const Greeting = ({ id, fetchedUser, go }: Props) => {
   }
   return (
     <Panel id={id}>
-      {loading ? (
-        "loading..."
-      ) : (
+      {loading ? null : (
         <div className="main__container">
           <div>
             <h3 className="main__logo">SENT.</h3>
