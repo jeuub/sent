@@ -1,0 +1,27 @@
+.home-panel>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 50px;
+}
+
+.home-panel__greeting>div {
+    display: flex;
+    flex-direction: row;
+}
+
+.home-panel__actions>div {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.home-panel__link {
+    padding: 10px 20px;
+    background-color: #e5ebf1;
+    border-radius: 8px;
+    color: #55677D;
+    font-weight: 500;
+}
