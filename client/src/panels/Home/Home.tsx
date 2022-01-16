@@ -19,7 +19,7 @@ interface Props {
 
 const Home = ({ id, go, fetchedUser }: Props) => {
   useEffect(() => {
-    localStorage.getItem("sent-token") ? go("main") : null;
+    localStorage.getItem("sent-token") ? go("greeting") : null;
   }, []);
   return (
     <Panel id={id} className="home-panel">

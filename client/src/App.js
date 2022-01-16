@@ -18,6 +18,7 @@ import { onError } from "@apollo/client/link/error";
 
 import Home from "./panels/Home/Home";
 import Login from "./panels/Login/Login";
+import Greeting from "./panels/Greeting/Greeting";
 import Main from "./panels/Main/Main";
 
 const errorLink = onError(({ graphqlErrors, networkErrors }) => {
@@ -77,6 +78,7 @@ const App = () => {
           <View activePanel={activePanel} popout={popout}>
             <Home id="home" fetchedUser={fetchedUser} go={go} />
             <Login id="login" fetchedUser={fetchedUser} go={go} />
+            <Greeting id="greeting" fetchedUser={fetchedUser} go={go} />
             <Main id="main" fetchedUser={fetchedUser} go={go} />
           </View>
         </AppRoot>

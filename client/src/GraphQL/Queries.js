@@ -18,3 +18,24 @@ export const fetchFeed = gql`
     }
   }
 `;
+
+export const myNote = graphql(
+  gql`
+    query User {
+      me {
+        notes {
+          content
+        }
+      }
+    }
+  `,
+  {
+    options: {
+      context: {
+        Headers: {
+          Authorization: localStorage.getItem("sent-token"),
+        },
+      },
+    },
+  }
+);

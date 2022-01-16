@@ -78,7 +78,7 @@ const Login = ({ id, go, fetchedUser }: Props) => {
 
   useEffect(() => {
     if (authorized) {
-      go("main");
+      go("greeting");
     }
   }, [authorized]);
 
