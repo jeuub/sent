@@ -44,7 +44,7 @@ const Home = ({ id, go, fetchedUser }: Props) => {
 
       <Group className="home-panel__actions">
         <Link
-          href="https://google.com"
+          href="http://pd-2021-2.std-1368.ist.mospolytech.ru/"
           target="_blank"
           className="home-panel__link"
         >

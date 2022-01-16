@@ -17,3 +17,15 @@ export const HAS_ACCOUNT = gql`
     hasAccount(vkid: $vkid)
   }
 `;
+
+export const NEW_NOTE = gql`
+  mutation newNote($content: String!) {
+    newNote(content: $content) {
+      content
+      id
+      author {
+        username
+      }
+    }
+  }
+`;

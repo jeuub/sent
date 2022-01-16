@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const fetchFeed = gql`
+export const FETCH_FEED = gql`
   query Query {
     noteFeed {
       notes {
@@ -19,23 +19,12 @@ export const fetchFeed = gql`
   }
 `;
 
-export const myNote = graphql(
-  gql`
-    query User {
-      me {
-        notes {
-          content
-        }
+export const MY_NOTE = gql`
+  query myNote {
+    me {
+      notes {
+        content
       }
     }
-  `,
-  {
-    options: {
-      context: {
-        Headers: {
-          Authorization: localStorage.getItem("sent-token"),
-        },
-      },
-    },
   }
-);
+`;

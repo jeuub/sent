@@ -12,6 +12,7 @@ import {
   InMemoryCache,
   ApolloProvider,
   HttpLink,
+  ApolloLink,
   from,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
@@ -29,7 +30,19 @@ const errorLink = onError(({ graphqlErrors, networkErrors }) => {
   }
 });
 
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("sent-token");
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      authorization: token || null,
+    },
+  }));
+  return forward(operation);
+});
+
 const link = from([
+  authLink,
   errorLink,
   new HttpLink({ uri: "https://sent-server.herokuapp.com/api" }),
 ]);
