@@ -15,6 +15,9 @@ import {
   Icon28UserCircleOutline,
   Icon28MessageOutline,
 } from "@vkontakte/icons";
+import AllNotes from "./MainPanels/AllNotes/AllNotes";
+import MyNote from "./MainPanels/MyNote/MyNote";
+
 const Main = () => {
   const [page, setPage] = useState("one");
 
@@ -50,21 +53,8 @@ const Main = () => {
             </Tabbar>
           }
         >
-          <View id="one" activePanel="one">
-            <Panel id="one">
-              <Group style={{ height: "450px" }}>asdasdasd</Group>
-            </Panel>
-          </View>
-          <View id="two" activePanel="two">
-            <Panel id="two">
-              <Group style={{ height: "450px" }}>asdasdываываывasd</Group>
-            </Panel>
-          </View>
-          <View id="three" activePanel="three">
-            <Panel id="three">
-              <Group style={{ height: "450px" }}>123123</Group>
-            </Panel>
-          </View>
+          <AllNotes />
+          <MyNote />
         </Epic>
       </FixedLayout>
     </Panel>
