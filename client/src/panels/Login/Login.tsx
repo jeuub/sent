@@ -72,9 +72,12 @@ const Login = ({ id, go, fetchedUser }: Props) => {
   };
 
   useEffect(() => {
-    setAuthorized(!!localStorage.getItem("sent-token"));
-    authorization();
-  }, []);
+    if (fetchedUser) {
+      console.log(fetchedUser);
+      setAuthorized(!!localStorage.getItem("sent-token"));
+      authorization();
+    }
+  }, [fetchedUser]);
 
   useEffect(() => {
     if (authorized) {

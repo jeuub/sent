@@ -56,7 +56,7 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const [activePanel, setActivePanel] = useState("home");
+  const [activePanel, setActivePanel] = useState("login");
   const [fetchedUser, setUser] = useState(null);
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 

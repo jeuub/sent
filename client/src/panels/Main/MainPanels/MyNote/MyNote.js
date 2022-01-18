@@ -11,10 +11,10 @@ import {
   FixedLayout,
 } from "@vkontakte/vkui";
 
-const MyNote = () => {
+const MyNote = ({ id }) => {
   return (
-    <View id="one" activePanel="one">
-      <Panel id="one">
+    <View id={id} activePanel={id}>
+      <Panel id={id}>
         <Group style={{ height: "450px" }}>MyNote</Group>
       </Panel>
     </View>

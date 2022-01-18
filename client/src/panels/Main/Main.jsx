@@ -25,10 +25,9 @@ const Main = () => {
     <Panel>
       <FixedLayout filled vertical="bottom">
         <Epic
-          style={{ height: "100%" }}
           activeStory={page}
           tabbar={
-            <Tabbar>
+            <Tabbar shadow={false}>
               <TabbarItem
                 selected={page === "one"}
                 onClick={() => setPage("one")}
@@ -43,18 +42,11 @@ const Main = () => {
               >
                 <Icon28UserCircleOutline />
               </TabbarItem>
-              <TabbarItem
-                selected={page === "three"}
-                onClick={() => setPage("three")}
-                text="Мессенджер"
-              >
-                <Icon28MessageOutline />
-              </TabbarItem>
             </Tabbar>
           }
         >
-          <AllNotes />
-          <MyNote />
+          <AllNotes id="one" activePanel="one" />
+          <MyNote id="two" activePanel="two" />
         </Epic>
       </FixedLayout>
     </Panel>
