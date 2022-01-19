@@ -28,3 +28,20 @@ export const MY_NOTE = gql`
     }
   }
 `;
+
+export const ME =  gql`
+query mySent {
+  me {
+    username
+    notes {
+      content
+      favoriteCount
+      favoritedBy {
+        username
+        vkid
+      }
+    }
+  }
+}
+`;
+

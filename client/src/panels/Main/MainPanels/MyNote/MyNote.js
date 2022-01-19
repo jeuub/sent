@@ -11,16 +11,17 @@ import {
   FixedLayout,
 } from "@vkontakte/vkui";
 import { useMutation, useQuery } from "@apollo/client";
-import { MY_NOTE } from "../../../../GraphQL/Queries";
+import { ME } from "../../../../GraphQL/Queries";
 
 const MyNote = ({ id }) => {
-  const { loading, data } = useQuery(MY_NOTE);
+  const { loading, data } = useQuery(ME);
   console.log(loading, data);
 
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
-        <Group style={{ height: "150px" }}>My</Group>
+        <Group>My sent.</Group>
+        <Group>{ !loading ? data?.me.username : 'Загрузка' }</Group>
       </Panel>
     </View>
   );
