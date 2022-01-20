@@ -36,7 +36,7 @@ const Greeting = ({ id, fetchedUser, go }: Props) => {
   }
   return (
     <Panel id={id}>
-      {loading ? null : (
+      {loading || data?.me?.notes.length ? null : (
         <div className="main__container">
           <div>
             <h3 className="main__logo">SENT.</h3>

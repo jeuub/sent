@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Panel, Spinner } from "@vkontakte/vkui";
+import { Panel, Spinner, PanelSpinner } from "@vkontakte/vkui";
 
 import "./login.css";
 import { CREATE_USER, SIGN_IN, HAS_ACCOUNT } from "../../GraphQL/Mutations";
-import { useMutation } from "@apollo/client";
+import { MY_NOTE } from "../../GraphQL/Queries";
+import { useMutation, useQuery } from "@apollo/client";
 
 interface Props {
   id: any;
@@ -86,9 +87,9 @@ const Login = ({ id, go, fetchedUser }: Props) => {
   }, [authorized]);
 
   return (
-    <Panel id={id}>
+    <Panel id={id} className="login__panel">
       <div className="login__spinner-wrapper">
-        <Spinner size="large" style={{ margin: "20px 0" }} />
+        <PanelSpinner size="large" style={{ margin: "20px 0" }} />
       </div>
     </Panel>
   );

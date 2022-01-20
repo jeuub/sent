@@ -47,11 +47,14 @@ const link = from([
   new HttpLink({ uri: "https://sent-server.herokuapp.com/api" }),
 ]);
 
+// const abortControler = new AbortController();
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: link,
   fetchOptions: {
     mode: "no-cors",
+    // signal: abortControler.signal,
   },
 });
 
