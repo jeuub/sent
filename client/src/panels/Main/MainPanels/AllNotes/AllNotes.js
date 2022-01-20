@@ -15,7 +15,7 @@ const AllNotes = ({ id }) => {
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
-        <Group style={{ height: "100%" }}>Allnotes</Group>
+        <Group>Allnotes</Group>
       </Panel>
     </View>
   );
