@@ -23,32 +23,31 @@ const Main = () => {
 
   return (
     <Panel>
-      <FixedLayout filled>
-        <Epic
-          activeStory={page}
-          tabbar={
-            <Tabbar shadow={false}>
-              <TabbarItem
-                selected={page === "all"}
-                onClick={() => setPage("all")}
-                text="Новости"
-              >
-                <Icon28NewsfeedOutline />
-              </TabbarItem>
-              <TabbarItem
-                selected={page === "my"}
-                onClick={() => setPage("my")}
-                text="Профиль"
-              >
-                <Icon28UserCircleOutline />
-              </TabbarItem>
-            </Tabbar>
-          }
-        >
-          <AllNotes id="all" />
-          <MyNote id="my" />
-        </Epic>
-      </FixedLayout>
+      {/* <FixedLayout> */}
+      <Epic
+        activeStory={page}
+        tabbar={
+          <Tabbar shadow={false}>
+            <TabbarItem
+              selected={page === "all"}
+              onClick={() => setPage("all")}
+              text="Новости"
+            >
+              <Icon28NewsfeedOutline />
+            </TabbarItem>
+            <TabbarItem
+              selected={page === "my"}
+              onClick={() => setPage("my")}
+              text="Профиль"
+            >
+              <Icon28UserCircleOutline />
+            </TabbarItem>
+          </Tabbar>
+        }
+      >
+        <AllNotes id="all" />
+        <MyNote id="my" />
+      </Epic>
     </Panel>
   );
 };
