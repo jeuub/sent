@@ -77,8 +77,6 @@ const Login = ({ id, go, fetchedUser }: any) => {
     }
   }, [fetchedUser]);
 
-  console.log(fetchedUser);
-
   return (
     <Panel id={id} className="login__panel">
       <div className="login__spinner-wrapper">
