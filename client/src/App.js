@@ -3,6 +3,7 @@ import bridge from "@vkontakte/vk-bridge";
 import {
   View,
   ScreenSpinner,
+  ConfigProvider,
   AdaptivityProvider,
   AppRoot,
 } from "@vkontakte/vkui";
@@ -28,6 +29,7 @@ const errorLink = onError(({ graphqlErrors, networkErrors }) => {
       console.log(`GraphQL error: ${message}`);
     });
   }
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
 const authLink = new ApolloLink((operation, forward) => {

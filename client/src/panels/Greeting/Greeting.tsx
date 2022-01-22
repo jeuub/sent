@@ -26,8 +26,8 @@ const Greeting = ({ id, fetchedUser, go }: Props) => {
       });
 
       go("main");
-    } catch (err) {
-      console.log(err);
+    } catch {
+      console.log("err");
     }
   };
 

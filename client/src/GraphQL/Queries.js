@@ -9,9 +9,13 @@ export const FETCH_FEED = gql`
         author {
           username
           id
+          vkid
         }
         createdAt
         favoriteCount
+        favoritedBy {
+          vkid
+        }
       }
       cursor
       hasNextPage
@@ -29,19 +33,18 @@ export const MY_NOTE = gql`
   }
 `;
 
-export const ME =  gql`
-query mySent {
-  me {
-    username
-    notes {
-      content
-      favoriteCount
-      favoritedBy {
-        username
-        vkid
+export const ME = gql`
+  query mySent {
+    me {
+      username
+      notes {
+        content
+        favoriteCount
+        favoritedBy {
+          username
+          vkid
+        }
       }
     }
   }
-}
 `;
-

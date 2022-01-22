@@ -29,3 +29,11 @@ export const NEW_NOTE = gql`
     }
   }
 `;
+
+export const TOGGLE_FAVORITE = gql`
+  mutation Mutation($toggleFavoriteId: ID!) {
+    toggleFavorite(id: $toggleFavoriteId) {
+      favoriteCount
+    }
+  }
+`;
