@@ -1,0 +1,12 @@
+.quote {
+  box-sizing: border-box;
+  padding: 8px;
+  margin: 8px 16px;
+  width: calc(100% -24px);
+  background-color: pink;
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+}

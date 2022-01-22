@@ -17,13 +17,14 @@ import {
 } from "@vkontakte/icons";
 import AllNotes from "./MainPanels/AllNotes/AllNotes";
 import MyNote from "./MainPanels/MyNote/MyNote";
+import "./Main.css";
 
 const Main = () => {
   const [page, setPage] = useState("all");
 
   return (
     <Panel>
-      <FixedLayout filled>
+      <FixedLayout className="fixedLayout">
         <Epic
           activeStory={page}
           tabbar={
@@ -31,14 +32,14 @@ const Main = () => {
               <TabbarItem
                 selected={page === "all"}
                 onClick={() => setPage("all")}
-                text="Новости"
+                text="All sents"
               >
                 <Icon28NewsfeedOutline />
               </TabbarItem>
               <TabbarItem
                 selected={page === "my"}
                 onClick={() => setPage("my")}
-                text="Профиль"
+                text="My sent"
               >
                 <Icon28UserCircleOutline />
               </TabbarItem>

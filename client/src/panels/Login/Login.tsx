@@ -12,11 +12,11 @@ interface Props {
   fetchedUser: any;
 }
 
-const Login = ({ id, go, fetchedUser }: Props) => {
+const Login = ({ id, go, fetchedUser }: any) => {
   const [hasAccount] = useMutation(HAS_ACCOUNT);
   const [signIn] = useMutation(SIGN_IN);
   const [signUp] = useMutation(CREATE_USER);
-  const [authorized, setAuthorized] = useState(false);
+  let authorized = false;
 
   const isAccountExisting = async () => {
     try {
@@ -26,8 +26,8 @@ const Login = ({ id, go, fetchedUser }: Props) => {
         },
       });
       return data.data?.hasAccount;
-    } catch (err) {
-      console.log(err);
+    } catch {
+      console.log("err");
     }
   };
 
@@ -40,10 +40,10 @@ const Login = ({ id, go, fetchedUser }: Props) => {
         },
       });
       localStorage.setItem("sent-token", data.data?.signIn);
-      setAuthorized(true);
+      authorized = true;
       return data.data?.signIn;
-    } catch (err) {
-      console.log(err);
+    } catch {
+      console.log("err");
     }
   };
 
@@ -56,40 +56,33 @@ const Login = ({ id, go, fetchedUser }: Props) => {
         },
       });
       localStorage.setItem("sent-token", data.data?.signIn);
-      setAuthorized(true);
+      authorized = true;
       return data.data?.signUp;
-    } catch (err) {
-      console.log(err);
+    } catch {
+      console.log("err");
     }
   };
 
   const authorization = async () => {
     const exists = await isAccountExisting();
-    if (exists) {
-      login();
-    } else {
-      registration();
-    }
+    exists ? login() : registration();
   };
-
   useEffect(() => {
     if (fetchedUser) {
-      console.log(fetchedUser);
-      setAuthorized(!!localStorage.getItem("sent-token"));
+      authorized = !!localStorage.getItem("sent-token");
       authorization();
+      if (authorized) {
+        go("greeting");
+      }
     }
   }, [fetchedUser]);
 
-  useEffect(() => {
-    if (authorized) {
-      go("greeting");
-    }
-  }, [authorized]);
+  console.log(fetchedUser);
 
   return (
     <Panel id={id} className="login__panel">
       <div className="login__spinner-wrapper">
-        <PanelSpinner size="large" style={{ margin: "20px 0" }} />
+        <Spinner size="large" style={{ margin: "20px 0" }} />
       </div>
     </Panel>
   );
