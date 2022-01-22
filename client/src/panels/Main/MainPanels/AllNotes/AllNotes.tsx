@@ -21,7 +21,9 @@ interface props {
 }
 
 const AllNotes = ({ id, fetchedUser }: props) => {
-  const [getFeed, { loading, error, data }] = useLazyQuery(FETCH_FEED);
+  const [getFeed, { loading, error, data }] = useLazyQuery(FETCH_FEED, {
+    fetchPolicy: "no-cache",
+  });
   useEffect(() => {
     getFeed();
   }, []);
