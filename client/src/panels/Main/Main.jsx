@@ -19,9 +19,8 @@ import AllNotes from "./MainPanels/AllNotes/AllNotes";
 import MyNote from "./MainPanels/MyNote/MyNote";
 import "./Main.css";
 
-const Main = () => {
+const Main = ({ fetchedUser }) => {
   const [page, setPage] = useState("all");
-
   return (
     <Panel>
       <FixedLayout className="fixedLayout">
@@ -46,7 +45,7 @@ const Main = () => {
             </Tabbar>
           }
         >
-          <AllNotes id="all" />
+          <AllNotes id="all" fetchedUser={fetchedUser} />
           <MyNote id="my" />
         </Epic>
       </FixedLayout>

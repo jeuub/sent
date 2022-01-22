@@ -13,6 +13,9 @@ export const FETCH_FEED = gql`
         }
         createdAt
         favoriteCount
+        favoritedBy {
+          vkid
+        }
       }
       cursor
       hasNextPage

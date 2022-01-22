@@ -3,6 +3,7 @@ import bridge from "@vkontakte/vk-bridge";
 import {
   View,
   ScreenSpinner,
+  ConfigProvider,
   AdaptivityProvider,
   AppRoot,
 } from "@vkontakte/vkui";
