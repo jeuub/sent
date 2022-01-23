@@ -19,7 +19,13 @@ import AllNotes from "./MainPanels/AllNotes/AllNotes";
 import MyNote from "./MainPanels/MyNote/MyNote";
 import "./Main.css";
 
-const Main = ({ fetchedUser }) => {
+interface props {
+  fetchedUser: any;
+  id: string;
+  go: any;
+}
+
+const Main = ({ fetchedUser, go }: props) => {
   const [page, setPage] = useState("all");
   return (
     <Panel>
@@ -46,7 +52,7 @@ const Main = ({ fetchedUser }) => {
         }
       >
         <AllNotes id="all" fetchedUser={fetchedUser} />
-        <MyNote id="my" />
+        <MyNote id="my" go={go} />
       </Epic>
     </Panel>
   );

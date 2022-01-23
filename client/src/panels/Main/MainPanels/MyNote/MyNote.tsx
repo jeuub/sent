@@ -26,9 +26,10 @@ import quot from "../../../../img/quot.svg";
 
 interface props {
   id: string;
+  go: any;
 }
 
-const MyNote = ({ id }: props) => {
+const MyNote = ({ id, go }: props) => {
   const { loading: meLoading, data: meData } = useQuery(ME);
   console.log(meLoading, meData);
   const username = meData?.me.username;
@@ -143,7 +144,13 @@ const MyNote = ({ id }: props) => {
               mode="plain"
               header={<Header mode="secondary">Фраза</Header>}
             >
-              <Button mode="outline">Создать фразу</Button>
+              <Button
+                onClick={() => go("greeting")}
+                mode="outline"
+                style={{ marginLeft: 16 }}
+              >
+                Создать фразу
+              </Button>
             </Group>
           )
         ) : (

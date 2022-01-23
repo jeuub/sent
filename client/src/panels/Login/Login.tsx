@@ -85,6 +85,7 @@ const Login = ({ id, go, fetchedUser }: any) => {
           );
     }, 3000);
   }, []);
+
   return (
     <Panel id={id} className="login__panel">
       <div className="login__spinner-wrapper">

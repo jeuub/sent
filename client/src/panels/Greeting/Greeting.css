@@ -39,3 +39,10 @@
   box-sizing: border-box;
   padding-left: 0;
 }
+
+@media screen and (max-width: 570px) {
+  .main__container {
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+}
