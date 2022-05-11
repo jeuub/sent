@@ -17,13 +17,19 @@ import {
   UsersStack,
   FormItem,
   Select,
+  Button,
   CellButton,
 } from "@vkontakte/vkui";
 import { useMutation, useQuery } from "@apollo/client";
 import { ME } from "../../../../GraphQL/Queries";
 import quot from "../../../../img/quot.svg";
 
-const MyNote = ({ id }) => {
+interface props {
+  id: string;
+  go: any;
+}
+
+const MyNote = ({ id, go }: props) => {
   const { loading: meLoading, data: meData } = useQuery(ME);
   console.log(meLoading, meData);
   const username = meData?.me.username;
@@ -99,9 +105,17 @@ const MyNote = ({ id }) => {
                   <img
                     src={quot}
                     alt="Quotation mark"
-                    style={{ width: "25px", float: "left", marginLeft: "10px" }}
+                    style={{
+                      width: "25px",
+                      float: "left",
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                      marginTop: "5px",
+                    }}
                   />
-                  <blockquote>{sentence}</blockquote>
+                  <blockquote style={{ minHeight: "2rem", paddingTop: "5px" }}>
+                    {sentence}
+                  </blockquote>
                 </Card>
               </CardGrid>
               <SplitLayout style={{ justifyContent: "center" }}>
@@ -119,9 +133,8 @@ const MyNote = ({ id }) => {
               <SimpleCell before={"Респекты: " + favoriteCount}>
                 <UsersStack
                   style={{ marginLeft: "1em" }}
-                  photos={favoritedByAvatars}
+                  photos={favoritedByAvatars || undefined}
                   size="m"
-                  count={3}
                 />
               </SimpleCell>
               <SimpleCell>Ответы (временно не работают)</SimpleCell>
@@ -131,14 +144,26 @@ const MyNote = ({ id }) => {
               mode="plain"
               header={<Header mode="secondary">Фраза</Header>}
             >
-              <Button mode="outline">Создать фразу</Button>
+              <Button
+                onClick={() => go("greeting")}
+                mode="outline"
+                style={{ marginLeft: 16 }}
+              >
+                Создать фразу
+              </Button>
             </Group>
           )
         ) : (
           <Spinner />
         )}
         <Group>
-          <CellButton>О sent.</CellButton>
+          <a
+            style={{ textDecoration: "none" }}
+            href="http://pd-2021-2.std-1368.ist.mospolytech.ru/"
+            target="_blank"
+          >
+            <CellButton>О sent.</CellButton>
+          </a>
           <CellButton mode="danger">Удалить аккаунт (dev)</CellButton>
         </Group>
       </Panel>

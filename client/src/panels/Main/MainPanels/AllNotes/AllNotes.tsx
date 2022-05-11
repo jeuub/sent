@@ -7,6 +7,7 @@ import {
   PanelHeaderContent,
   PanelHeaderContext,
   PanelHeader,
+  Spinner,
   Cell,
 } from "@vkontakte/vkui";
 import { Icon28AddOutline, Icon24Done, Icon16Dropdown } from "@vkontakte/icons";
@@ -21,7 +22,9 @@ interface props {
 }
 
 const AllNotes = ({ id, fetchedUser }: props) => {
-  const [getFeed, { loading, error, data }] = useLazyQuery(FETCH_FEED);
+  const [getFeed, { loading, error, data }] = useLazyQuery(FETCH_FEED, {
+    fetchPolicy: "no-cache",
+  });
   useEffect(() => {
     getFeed();
   }, []);
@@ -81,20 +84,30 @@ const AllNotes = ({ id, fetchedUser }: props) => {
             </Cell>
           </List>
         </PanelHeaderContext>
-        {loading
-          ? "loading"
-          : data?.noteFeed?.notes?.map((e: any) => (
-              <Note
-                favoritedBy={e.favoritedBy}
-                fetchedUser={fetchedUser}
-                author={e.author}
-                content={e.content}
-                date={new Date(e.createdAt)}
-                favoriteCount={e.favoriteCount}
-                id={e.id}
-                key={e.author.username}
-              />
-            ))}
+        {loading ? (
+          <Spinner
+            size="large"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%)",
+            }}
+          />
+        ) : (
+          data?.noteFeed?.notes?.map((e: any) => (
+            <Note
+              favoritedBy={e.favoritedBy}
+              fetchedUser={fetchedUser}
+              author={e.author}
+              content={e.content}
+              date={new Date(e.createdAt)}
+              favoriteCount={e.favoriteCount}
+              id={e.id}
+              key={e.author.username}
+            />
+          ))
+        )}
       </Panel>
     </View>
   );

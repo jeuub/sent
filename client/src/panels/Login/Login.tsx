@@ -16,6 +16,7 @@ const Login = ({ id, go, fetchedUser }: any) => {
   const [hasAccount] = useMutation(HAS_ACCOUNT);
   const [signIn] = useMutation(SIGN_IN);
   const [signUp] = useMutation(CREATE_USER);
+  const [error, setError] = useState("");
   let authorized = false;
 
   const isAccountExisting = async () => {
@@ -26,8 +27,8 @@ const Login = ({ id, go, fetchedUser }: any) => {
         },
       });
       return data.data?.hasAccount;
-    } catch {
-      console.log("err");
+    } catch (e) {
+      setError(String(e) || "");
     }
   };
 
@@ -41,9 +42,8 @@ const Login = ({ id, go, fetchedUser }: any) => {
       });
       localStorage.setItem("sent-token", data.data?.signIn);
       authorized = true;
-      return data.data?.signIn;
-    } catch {
-      console.log("err");
+    } catch (e) {
+      setError(String(e) || "");
     }
   };
 
@@ -57,9 +57,8 @@ const Login = ({ id, go, fetchedUser }: any) => {
       });
       localStorage.setItem("sent-token", data.data?.signIn);
       authorized = true;
-      return data.data?.signUp;
-    } catch {
-      console.log("err");
+    } catch (e) {
+      setError(String(e) || "");
     }
   };
 
@@ -77,10 +76,21 @@ const Login = ({ id, go, fetchedUser }: any) => {
     }
   }, [fetchedUser]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      localStorage.getItem("sent-token")
+        ? go("greeting")
+        : setError(
+            "Вероятно, произошла ошибка, попробуйте обновить страницу или перезайти"
+          );
+    }, 3000);
+  }, []);
+
   return (
     <Panel id={id} className="login__panel">
       <div className="login__spinner-wrapper">
         <Spinner size="large" style={{ margin: "20px 0" }} />
+        {error ? error : null}
       </div>
     </Panel>
   );
