@@ -29,7 +29,7 @@ const errorLink = onError(({ graphqlErrors, networkErrors }) => {
       console.log(`GraphQL error: ${message}`);
     });
   }
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkErrors) console.log(`[Network error]: ${networkErrors}`);
 });
 
 const authLink = new ApolloLink((operation, forward) => {
@@ -46,7 +46,7 @@ const authLink = new ApolloLink((operation, forward) => {
 const link = from([
   authLink,
   errorLink,
-  new HttpLink({ uri: "https://sent-server.herokuapp.com/api" }),
+  new HttpLink({ uri: process.env.REACT_APP_API_URL }),
 ]);
 
 // const abortControler = new AbortController();
@@ -81,7 +81,7 @@ const App = () => {
     fetchData();
 
     return () => {
-      routerUnsubscribe();
+      bridge.unsubscribe();
     };
   }, []);
 
