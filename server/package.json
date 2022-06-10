@@ -1,5 +1,5 @@
 {
-  "name": "sent",
+  "name": "sent-server",
   "version": "1.0.0",
   "description": "web-application for making notes (server side)",
   "main": "index.js",

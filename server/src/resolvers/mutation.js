@@ -60,7 +60,7 @@ module.exports = {
     }
 
     let noteCheck = await models.Note.findById(id);
-    console.log(noteCheck);
+    // console.log(noteCheck);
     const hasUser = noteCheck.favoritedBy.indexOf(user.id);
 
     if (hasUser >= 0) {

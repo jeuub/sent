@@ -19,6 +19,7 @@ import {
   Select,
   Button,
   CellButton,
+  SizeType,
 } from "@vkontakte/vkui";
 import { useMutation, useQuery } from "@apollo/client";
 import { ME } from "../../../../GraphQL/Queries";
@@ -159,7 +160,7 @@ const MyNote = ({ id, go }: props) => {
         <Group>
           <a
             style={{ textDecoration: "none" }}
-            href="http://pd-2021-2.std-1368.ist.mospolytech.ru/"
+            href="//sent.bouhartsev.top/"
             target="_blank"
           >
             <CellButton>О sent.</CellButton>
