@@ -32,7 +32,7 @@ interface props {
 
 const MyNote = ({ id, go }: props) => {
   const { loading: meLoading, data: meData } = useQuery(ME);
-  console.log(meLoading, meData);
+  // console.log(meLoading, meData);
   const username = meData?.me.username;
   let sentence = null;
   let favoriteCount = null;
