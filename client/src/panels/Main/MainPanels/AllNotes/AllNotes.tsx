@@ -50,7 +50,7 @@ const AllNotes = ({ id, fetchedUser }: props) => {
               />
             }
           >
-            All sents.
+            all sent.
           </PanelHeaderContent>
         </PanelHeader>
         <PanelHeaderContext

@@ -37,7 +37,7 @@ const Main = ({ fetchedUser, go }: props) => {
             <TabbarItem
               selected={page === "all"}
               onClick={() => setPage("all")}
-              text="Новости"
+              text="Фразы"
             >
               <Icon28NewsfeedOutline />
             </TabbarItem>

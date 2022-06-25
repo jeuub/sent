@@ -14,3 +14,9 @@ figure {
 figcaption {
   text-align: right;
 }
+.vkuiIconButton {
+  height: 0;
+}
+.vkuiIconButton>* {
+  padding: 0 !important;
+}
