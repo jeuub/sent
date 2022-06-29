@@ -94,7 +94,9 @@ const Note = ({
           <IconButton onClick={toggle} sizeY={SizeType.COMPACT}>
             {favorite ? <Icon24Like /> : <Icon24LikeOutline />}
           </IconButton>
+          
           {/* Change to answers counter */}
+          {0}
           <IconButton>
             {false ? <Icon24Comment /> : <Icon24CommentOutline />}{" "}
           </IconButton>

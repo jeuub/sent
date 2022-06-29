@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Panel,
   Spinner,
@@ -24,43 +24,77 @@ import {
 import { useMutation, useQuery } from "@apollo/client";
 import { ME } from "../../../../GraphQL/Queries";
 import quot from "../../../../img/quot.svg";
+import bridge from "@vkontakte/vk-bridge";
 
 interface props {
   id: string;
   go: any;
+  fetchedUser: any;
 }
 
-const MyNote = ({ id, go }: props) => {
-  const { loading: meLoading, data: meData } = useQuery(ME);
+const MyNote = ({ id, fetchedUser, go }: props) => {
+  const { loading: meLoading, data: meData } = useQuery(ME, {
+    pollInterval: 1000, // частота обновления данных
+  });
+  const [favoritedBy, setFavoritedBy] = useState<any[]>([]);
   // console.log(meLoading, meData);
   const username = meData?.me.username;
   let sentence = null;
   let favoriteCount = null;
-  let favoritedBy = null;
+  // let favoritedBy = null;
   let favoritedByAvatars = null;
   if (meData?.me.notes.length) {
     let note = meData?.me.notes[0];
     sentence = note.content;
     favoriteCount = note.favoriteCount;
-    favoritedBy = note.favoritedBy;
-    favoritedByAvatars = [
-      "https://picsum.photos/300/300/",
-      "https://picsum.photos/seed/300/300/",
-      "https://picsum.photos/id/1/300/300/",
-      "https://picsum.photos/id/2/300/300/",
-      "https://picsum.photos/id/3/300/300/",
-      "https://picsum.photos/id/4/300/300/",
-      "https://picsum.photos/id/5/300/300/",
-      "https://picsum.photos/id/6/300/300/",
-      "https://picsum.photos/id/7/300/300/",
-    ]; // temp array
+    bridge
+      .send("VKWebAppCallAPIMethod", {
+        method: "users.get",
+        request_id: "respects-my",
+        params: {
+          v: "5.131",
+          access_token: String(localStorage.getItem("vk-api-token")),
+          user_ids: note.favoritedBy.map((val: any) => val?.vkid).join(), // id в строке через запятую
+          fields: "photo_50", // дополнительные поля
+          name_case: "gen", // родительный падеж
+        },
+      })
+      .then((data) => {
+        setFavoritedBy(data?.response);
+      });
+    // favoritedBy = note.favoritedBy;
+    // favoritedByAvatars = [
+    //   "https://picsum.photos/300/300/",
+    //   "https://picsum.photos/seed/300/300/",
+    //   "https://picsum.photos/id/1/300/300/",
+    //   "https://picsum.photos/id/2/300/300/",
+    //   "https://picsum.photos/id/3/300/300/",
+    //   "https://picsum.photos/id/4/300/300/",
+    //   "https://picsum.photos/id/5/300/300/",
+    //   "https://picsum.photos/id/6/300/300/",
+    //   "https://picsum.photos/id/7/300/300/",
+    // ]; // temp array
   }
   const themes = [
     { label: "как в ВК", value: "auto" },
     { label: "светлая", value: "light" },
     { label: "тёмная", value: "dark" },
   ];
-
+  // console.log(window.location.href);
+  // bridge
+  //   .send("VKWebAppCallAPIMethod", {
+  //     method: "users.get",
+  //     request_id: "respects-my",
+  //     params: {
+  //       v: "5.131",
+  //       access_token: String(localStorage.getItem("vk-api-token")),
+  //       user_ids: "227738153, 122914756, 663174887, 333867800", // id в строке через запятую
+  //       fields: "photo_50", // дополнительные поля
+  //       name_case: "gen" // родительный падеж
+  //     },
+  //   })
+  //   .then((data) => console.log(data))
+  //   .catch((err) => console.log(err));
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
@@ -131,10 +165,17 @@ const MyNote = ({ id, go }: props) => {
                   </Div>
                 </SplitCol>
               </SplitLayout>
-              <SimpleCell before={"Респекты: " + favoriteCount}>
+              <SimpleCell
+                before={
+                  <span>
+                    Респекты: <b> {favoriteCount}</b>
+                  </span>
+                }
+              >
                 <UsersStack
                   style={{ marginLeft: "1em" }}
-                  photos={favoritedByAvatars || undefined}
+                  // photos={favoritedByAvatars || undefined}
+                  photos={favoritedBy?.map((val: any) => val["photo_50"])}
                   size="m"
                 />
               </SimpleCell>
@@ -165,7 +206,9 @@ const MyNote = ({ id, go }: props) => {
           >
             <CellButton>О sent.</CellButton>
           </a>
-          <CellButton mode="danger">Удалить аккаунт (dev)</CellButton>
+          <CellButton mode="danger" onClick={() => localStorage.clear()}>
+            Удалить токены (dev)
+          </CellButton>
         </Group>
       </Panel>
     </View>

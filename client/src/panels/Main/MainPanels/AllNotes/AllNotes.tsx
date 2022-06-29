@@ -34,7 +34,7 @@ const AllNotes = ({ id, fetchedUser }: props) => {
     <View id={id} activePanel={id}>
       <Panel id={id}>
         <PanelHeader
-          right={
+          after={
             <PanelHeaderButton>
               <Icon28AddOutline />
             </PanelHeaderButton>

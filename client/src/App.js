@@ -66,8 +66,8 @@ const App = () => {
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
   useEffect(() => {
+    if (bridge.isStandalone()) console.log("site");
     bridge.subscribe(({ detail: { type, data } }) => {
-      console.log(type, data)
       if (type === "VKWebAppUpdateConfig") {
         const schemeAttribute = document.createAttribute("scheme");
         schemeAttribute.value = data.scheme ? data.scheme : "client_light";
@@ -80,6 +80,16 @@ const App = () => {
       setPopout(null);
     }
     fetchData();
+
+    if (!localStorage.getItem("vk-api-token"))
+      bridge.send("VKWebAppGetAuthToken", {
+        app_id: 8013137, // current mini app id
+        scope: "",
+      }).then(data => {
+        localStorage.setItem("vk-api-token", data.access_token);
+      }).catch(err => {
+        console.log("Token getting error")
+      });
 
     return () => {
       bridge.unsubscribe();
