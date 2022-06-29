@@ -27,7 +27,9 @@ const AllNotes = ({ id, fetchedUser }: props) => {
   });
   useEffect(() => {
     getFeed();
+    console.log("get feed");
   }, []);
+
   const [openContext, setOpenContext] = useState(false);
   const [mode, setMode] = useState("all");
   return (
