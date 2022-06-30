@@ -18,16 +18,19 @@ import {
 } from "@vkontakte/icons";
 import { useMutation } from "@apollo/client";
 import { TOGGLE_FAVORITE } from "../../GraphQL/Mutations";
+import { getUsersData } from "../../utils";
 import "./style.css";
-interface autor {
-  username: String;
-  vkid: String;
+
+
+interface author {
+  username: string;
+  vkid: string;
 }
 
 interface props {
   fetchedUser: any;
   favoritedBy: any;
-  author: autor;
+  author: author;
   content: string;
   date: Date;
   favoriteCount: number;
@@ -61,6 +64,7 @@ const Note = ({
     "Декабрь",
   ];
   useEffect(() => {
+    // change - just check in my favorites
     favoritedBy.forEach((e: any) => {
       if (e.vkid == fetchedUser?.id) {
         setFavorite(true);
@@ -76,12 +80,17 @@ const Note = ({
     setFavoriteCountState(data?.data?.toggleFavorite?.favoriteCount);
     setFavorite(!favorite);
   };
+
+  const [avatarUrl, setAvatarUrl] = useState("")
+
+  getUsersData([author], ["photo_200"]).then((response)=>{setAvatarUrl(response[0]?.photo_200);});
+
   return (
     <RichCell
       before={
         // <a href="vk://vk.com/profile" target="_blank">
-          <Avatar size={48} src={"https://example.com/" + "test"}>
-            <Icon28UserOutline />
+          <Avatar size={48} src={avatarUrl}>
+            {!avatarUrl && <Icon28UserOutline />}
           </Avatar>
         // </a>
       }
@@ -94,7 +103,9 @@ const Note = ({
           <IconButton onClick={toggle} sizeY={SizeType.COMPACT}>
             {favorite ? <Icon24Like /> : <Icon24LikeOutline />}
           </IconButton>
+          
           {/* Change to answers counter */}
+          {0}
           <IconButton>
             {false ? <Icon24Comment /> : <Icon24CommentOutline />}{" "}
           </IconButton>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import bridge from "@vkontakte/vk-bridge";
 import {
   View,
@@ -22,6 +23,8 @@ import Home from "./panels/Home/Home";
 import Login from "./panels/Login/Login";
 import Greeting from "./panels/Greeting/Greeting";
 import Main from "./panels/Main/Main";
+import { updateThemeSetter, getTheme, updateApiToken } from "./utils";
+
 
 const errorLink = onError(({ graphqlErrors, networkErrors }) => {
   if (graphqlErrors) {
@@ -64,14 +67,22 @@ const App = () => {
   const [activePanel, setActivePanel] = useState("login");
   const [fetchedUser, setUser] = useState(null);
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
+  const [theme, setTheme] = useState(getTheme());
+  const [scheme, setScheme] = useState("client_light");
+
+  updateThemeSetter(setTheme);
+
+  let navigate = useNavigate();
+  if (bridge.isStandalone()) {
+    console.log("site");
+    navigate('/');
+  }
 
   useEffect(() => {
     bridge.subscribe(({ detail: { type, data } }) => {
-      console.log(type, data)
       if (type === "VKWebAppUpdateConfig") {
-        const schemeAttribute = document.createAttribute("scheme");
-        schemeAttribute.value = data.scheme ? data.scheme : "client_light";
-        document.body.attributes.setNamedItem(schemeAttribute);
+        if (!!data?.scheme) setScheme(data.scheme);
+        // else setScheme("client_light");
       }
     });
     async function fetchData() {
@@ -80,6 +91,8 @@ const App = () => {
       setPopout(null);
     }
     fetchData();
+
+    if (!localStorage.getItem("vk-api-token")) updateApiToken();
 
     return () => {
       bridge.unsubscribe();
@@ -91,18 +104,20 @@ const App = () => {
   };
 
   return (
-    <ApolloProvider client={client}>
-      <AdaptivityProvider>
-        <AppRoot>
-          <View activePanel={activePanel} popout={popout}>
-            <Home id="home" fetchedUser={fetchedUser} go={go} />
-            <Login id="login" fetchedUser={fetchedUser} go={go} />
-            <Greeting id="greeting" fetchedUser={fetchedUser} go={go} />
-            <Main id="main" fetchedUser={fetchedUser} go={go} />
-          </View>
-        </AppRoot>
-      </AdaptivityProvider>
-    </ApolloProvider>
+    <ConfigProvider scheme={scheme} appearance={theme}>
+      <ApolloProvider client={client}>
+        <AdaptivityProvider>
+          <AppRoot>
+            <View activePanel={activePanel} popout={popout}>
+              <Home id="home" fetchedUser={fetchedUser} go={go} />
+              <Login id="login" fetchedUser={fetchedUser} go={go} />
+              <Greeting id="greeting" fetchedUser={fetchedUser} go={go} />
+              <Main id="main" fetchedUser={fetchedUser} go={go} />
+            </View>
+          </AppRoot>
+        </AdaptivityProvider>
+      </ApolloProvider>
+    </ConfigProvider>
   );
 };
 

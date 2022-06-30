@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Panel,
   Spinner,
@@ -24,58 +24,54 @@ import {
 import { useMutation, useQuery } from "@apollo/client";
 import { ME } from "../../../../GraphQL/Queries";
 import quot from "../../../../img/quot.svg";
+import { setTheme, getUsersData, getTheme } from "../../../../utils";
 
 interface props {
   id: string;
   go: any;
+  fetchedUser: any;
 }
 
-const MyNote = ({ id, go }: props) => {
-  const { loading: meLoading, data: meData } = useQuery(ME);
-  // console.log(meLoading, meData);
-  const username = meData?.me.username;
-  let sentence = null;
-  let favoriteCount = null;
-  let favoritedBy = null;
-  let favoritedByAvatars = null;
-  if (meData?.me.notes.length) {
-    let note = meData?.me.notes[0];
-    sentence = note.content;
-    favoriteCount = note.favoriteCount;
-    favoritedBy = note.favoritedBy;
-    favoritedByAvatars = [
-      "https://picsum.photos/300/300/",
-      "https://picsum.photos/seed/300/300/",
-      "https://picsum.photos/id/1/300/300/",
-      "https://picsum.photos/id/2/300/300/",
-      "https://picsum.photos/id/3/300/300/",
-      "https://picsum.photos/id/4/300/300/",
-      "https://picsum.photos/id/5/300/300/",
-      "https://picsum.photos/id/6/300/300/",
-      "https://picsum.photos/id/7/300/300/",
-    ]; // temp array
-  }
+const MyNote = ({ id, fetchedUser, go }: props) => {
+  const { loading: meLoading, data: meData } = useQuery(ME, {
+    pollInterval: 1000, // частота обновления данных
+  });
+  const [favoritedBy, setFavoritedBy] = useState<any[]>([]);
+  const [sentence, setSentence] = useState(null);
+
+  useEffect(() => {
+    if (meData?.me.notes.length) {
+      let note = meData?.me.notes[0];
+      setSentence(note.content);
+      getUsersData(note.favoritedBy).then((response) =>
+        setFavoritedBy(response)
+      );
+    }
+  }, [meData]);
   const themes = [
     { label: "как в ВК", value: "auto" },
     { label: "светлая", value: "light" },
     { label: "тёмная", value: "dark" },
   ];
-
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
         <PanelHeader>my sent.</PanelHeader>
         <Group>
-          <Header mode="secondary">Настройки</Header>
+          <Header mode="secondary">Личный кабинет</Header>
           <SimpleCell
             disabled
             after={
               <FormItem>
                 <Select
                   // зафиксировать размер, убрать отступ справа
-                  defaultValue={"auto"}
+
+                  defaultValue={getTheme()}
                   defaultChecked={true}
                   options={themes}
+                  onChange={(e) => {
+                    setTheme(e?.target?.value)
+                  }}
                 />
               </FormItem>
             }
@@ -99,11 +95,12 @@ const MyNote = ({ id, go }: props) => {
           sentence != null ? (
             <Group
               mode="plain"
+              sizeX={SizeType.REGULAR}
               header={<Header mode="secondary">Фраза</Header>}
             >
               <CardGrid size="l">
-                <Card mode="shadow">
-                  <img
+                <Card mode="shadow" style={{ minHeight: "2rem", padding: "15px" }}>
+                  {/* <img
                     src={quot}
                     alt="Quotation mark"
                     style={{
@@ -113,10 +110,11 @@ const MyNote = ({ id, go }: props) => {
                       marginRight: "10px",
                       marginTop: "5px",
                     }}
-                  />
-                  <blockquote style={{ minHeight: "2rem", paddingTop: "5px" }}>
+                  /> */}
+                  {/* <blockquote style={{ minHeight: "2rem", padding: "15px" }}>
                     {sentence}
-                  </blockquote>
+                  </blockquote> */}
+                  {sentence}
                 </Card>
               </CardGrid>
               <SplitLayout style={{ justifyContent: "center" }}>
@@ -131,10 +129,16 @@ const MyNote = ({ id, go }: props) => {
                   </Div>
                 </SplitCol>
               </SplitLayout>
-              <SimpleCell before={"Респекты: " + favoriteCount}>
+              <SimpleCell
+                before={
+                  <span>
+                    Респекты: <b> {favoritedBy?.length}</b>
+                  </span>
+                }
+              >
                 <UsersStack
                   style={{ marginLeft: "1em" }}
-                  photos={favoritedByAvatars || undefined}
+                  photos={favoritedBy?.map((val: any) => val["photo_50"])}
                   size="m"
                 />
               </SimpleCell>
@@ -165,7 +169,9 @@ const MyNote = ({ id, go }: props) => {
           >
             <CellButton>О sent.</CellButton>
           </a>
-          <CellButton mode="danger">Удалить аккаунт (dev)</CellButton>
+          <CellButton mode="danger" onClick={() => localStorage.clear()}>
+            Удалить токены (dev)
+          </CellButton>
         </Group>
       </Panel>
     </View>

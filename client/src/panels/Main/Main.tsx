@@ -52,7 +52,7 @@ const Main = ({ fetchedUser, go }: props) => {
         }
       >
         <AllNotes id="all" fetchedUser={fetchedUser} />
-        <MyNote id="my" go={go} />
+        <MyNote id="my" fetchedUser={fetchedUser} go={go} />
       </Epic>
     </Panel>
   );

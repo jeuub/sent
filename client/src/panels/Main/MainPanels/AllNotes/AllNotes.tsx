@@ -8,7 +8,10 @@ import {
   PanelHeaderContext,
   PanelHeader,
   Spinner,
+  Search,
   Cell,
+  FixedLayout,
+  Group,
 } from "@vkontakte/vkui";
 import { Icon28AddOutline, Icon24Done, Icon16Dropdown } from "@vkontakte/icons";
 import { FETCH_FEED } from "../../../../GraphQL/Queries";
@@ -27,14 +30,16 @@ const AllNotes = ({ id, fetchedUser }: props) => {
   });
   useEffect(() => {
     getFeed();
+    console.log("get feed");
   }, []);
+
   const [openContext, setOpenContext] = useState(false);
   const [mode, setMode] = useState("all");
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
         <PanelHeader
-          right={
+          after={
             <PanelHeaderButton>
               <Icon28AddOutline />
             </PanelHeaderButton>
@@ -53,7 +58,23 @@ const AllNotes = ({ id, fetchedUser }: props) => {
             all sent.
           </PanelHeaderContent>
         </PanelHeader>
-        <PanelHeaderContext
+        <Group>
+          {/* <FixedLayout vertical="top"> */}
+          {openContext && (
+            <Search
+              value={""}
+              onChange={() => {}}
+              after={null}
+              style={{
+                position: "sticky",
+                top: 0,
+                background: "var(--vkui--color_background_content)",
+                zIndex: 100,
+              }}
+            />
+          )}
+          {/* </FixedLayout> */}
+          {/* <PanelHeaderContext
           opened={openContext}
           onClose={() => setOpenContext(!openContext)}
         >
@@ -83,31 +104,34 @@ const AllNotes = ({ id, fetchedUser }: props) => {
               Поиск
             </Cell>
           </List>
-        </PanelHeaderContext>
-        {loading ? (
-          <Spinner
-            size="large"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%)",
-            }}
-          />
-        ) : (
-          data?.noteFeed?.notes?.map((e: any) => (
-            <Note
-              favoritedBy={e.favoritedBy}
-              fetchedUser={fetchedUser}
-              author={e.author}
-              content={e.content}
-              date={new Date(e.createdAt)}
-              favoriteCount={e.favoriteCount}
-              id={e.id}
-              key={e.author.username}
+        </PanelHeaderContext> */}
+          {loading ? (
+            <Spinner
+              size="large"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%)",
+              }}
             />
-          ))
-        )}
+          ) : (
+            data?.noteFeed?.notes
+              ?.reverse()
+              .map((e: any) => (
+                <Note
+                  favoritedBy={e.favoritedBy}
+                  fetchedUser={fetchedUser}
+                  author={e.author}
+                  content={e.content}
+                  date={new Date(e.createdAt)}
+                  favoriteCount={e.favoriteCount}
+                  id={e.id}
+                  key={e.author.username}
+                />
+              ))
+          )}
+        </Group>
       </Panel>
     </View>
   );

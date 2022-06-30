@@ -40,38 +40,38 @@ const Greeting = ({ id, fetchedUser, go }: Props) => {
         <div className="main__container">
           <div>
             <h3 className="main__logo">SENT.</h3>
-            <h2>
+            <p>
               Одна фраза - на все,
               <br /> навсегда.
-            </h2>
+            </p>
           </div>
           <div className="main__form form">
             <div className="form__content ">
               <FormItem>
                 <Input
                   type="text"
-                  placeholder="Your phrase"
+                  placeholder="Ваша фраза"
                   value={phrase}
                   onChange={(e) => setPhrase(e.target.value)}
                 />
               </FormItem>
               <Button
                 onClick={createNote}
-                before={<Icon24Add />}
                 size="m"
-              ></Button>
+              >Создать фразу</Button>
             </div>
             <Button
-              mode="tertiary"
+              mode="secondary"
               size="m"
               className="form__later"
-              stretched={true}
+              
               onClick={() => go("main")}
             >
-              {" "}
-              Создать фразу позже...
+              позже
             </Button>
           </div>
+          {/* Change action to use app inherit description */}
+          <div><a href="//sent.bouhartsev.top">Узнать больше о приложении</a></div>
         </div>
       )}
     </Panel>
