@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import bridge from "@vkontakte/vk-bridge";
 import {
   View,
@@ -23,6 +24,7 @@ import Login from "./panels/Login/Login";
 import Greeting from "./panels/Greeting/Greeting";
 import Main from "./panels/Main/Main";
 import { updateThemeSetter, getTheme, updateApiToken } from "./utils";
+
 
 const errorLink = onError(({ graphqlErrors, networkErrors }) => {
   if (graphqlErrors) {
@@ -70,11 +72,16 @@ const App = () => {
 
   updateThemeSetter(setTheme);
 
+  let navigate = useNavigate();
+  if (bridge.isStandalone()) {
+    console.log("site");
+    navigate('/');
+  }
+
   useEffect(() => {
-    if (bridge.isStandalone()) console.log("site");
     bridge.subscribe(({ detail: { type, data } }) => {
       if (type === "VKWebAppUpdateConfig") {
-        if (data?.scheme) setScheme(data.scheme);
+        if (!!data?.scheme) setScheme(data.scheme);
         // else setScheme("client_light");
       }
     });

@@ -58,7 +58,7 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
       <Panel id={id}>
         <PanelHeader>my sent.</PanelHeader>
         <Group>
-          <Header mode="secondary">Настройки</Header>
+          <Header mode="secondary">Личный кабинет</Header>
           <SimpleCell
             disabled
             after={
@@ -99,7 +99,7 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
               header={<Header mode="secondary">Фраза</Header>}
             >
               <CardGrid size="l">
-                <Card mode="shadow">
+                <Card mode="shadow" style={{ minHeight: "2rem", padding: "15px" }}>
                   {/* <img
                     src={quot}
                     alt="Quotation mark"
@@ -111,9 +111,10 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
                       marginTop: "5px",
                     }}
                   /> */}
-                  <blockquote style={{ minHeight: "2rem", padding: "15px" }}>
+                  {/* <blockquote style={{ minHeight: "2rem", padding: "15px" }}>
                     {sentence}
-                  </blockquote>
+                  </blockquote> */}
+                  {sentence}
                 </Card>
               </CardGrid>
               <SplitLayout style={{ justifyContent: "center" }}>
