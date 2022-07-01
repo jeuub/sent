@@ -78,12 +78,10 @@ const App = () => {
     navigate('/');
   }
 
-  console.log(scheme, theme);
   useEffect(() => {
     bridge.subscribe(({ detail: { type, data } }) => {
       if (type === "VKWebAppUpdateConfig") {
         if (!!data?.scheme) setScheme(data.scheme);
-        console.log(scheme);
       }
     });
     async function fetchData() {
