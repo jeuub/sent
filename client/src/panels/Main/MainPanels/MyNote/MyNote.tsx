@@ -23,8 +23,8 @@ import {
 } from "@vkontakte/vkui";
 import { useMutation, useQuery } from "@apollo/client";
 import { ME } from "../../../../GraphQL/Queries";
-import quot from "../../../../img/quot.svg";
 import { setTheme, getUsersData, getTheme } from "../../../../utils";
+import Logo from "../../../../components/Logo";
 
 interface props {
   id: string;
@@ -56,7 +56,7 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
-        <PanelHeader>my sent.</PanelHeader>
+        <PanelHeader>my <Logo /></PanelHeader>
         <Group>
           <Header mode="secondary">Личный кабинет</Header>
           <SimpleCell

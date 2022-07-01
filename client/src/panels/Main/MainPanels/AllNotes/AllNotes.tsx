@@ -17,8 +17,8 @@ import { Icon28AddOutline, Icon24Done, Icon16Dropdown } from "@vkontakte/icons";
 import { FETCH_FEED } from "../../../../GraphQL/Queries";
 import { useLazyQuery } from "@apollo/client";
 import Note from "../../../../components/Note";
+import Logo from "../../../../components/Logo";
 import "./style.css";
-import { updateExpressionWithTypeArguments } from "typescript";
 
 interface props {
   id: string;
@@ -76,7 +76,7 @@ const AllNotes = ({ id, fetchedUser }: props) => {
               />
             }
           >
-            all sent.
+            all <Logo />
           </PanelHeaderContent>
         </PanelHeader>
         <Group>
