@@ -17,7 +17,7 @@ export function setTheme(_theme:string) {
 }
 
 export function getTheme() {
-  return !!localStorage.getItem("appTheme") ? localStorage.getItem("appTheme")+"" : "auto";
+  return !!localStorage.getItem("appTheme") ? localStorage.getItem("appTheme")+"" : "";
 }
 
 export function updateApiToken() {
