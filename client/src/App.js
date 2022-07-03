@@ -99,7 +99,8 @@ const App = () => {
   }, []);
 
   const go = (target) => {
-    setActivePanel(target);
+    if (activePanel!=target)
+      setActivePanel(target);
   };
 
   return (
