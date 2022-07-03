@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NEW_NOTE } from "../../GraphQL/Mutations";
 import { MY_NOTE } from "../../GraphQL/Queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -31,12 +31,17 @@ const Greeting = ({ id, fetchedUser, go }: Props) => {
     }
   };
 
-  if (data?.me?.notes.length) {
-    go("main");
-  }
+  useEffect(() => {
+    if (data?.me?.notes.length) {
+      go("main");
+    }
+  }, [data]);
+
   return (
     <Panel id={id}>
-      {loading || data?.me?.notes.length ? null : (
+      {loading || data?.me?.notes.length ? (
+        null
+      ) : (
         <div className="main__container">
           <div>
             <h3 className="main__logo">SENT.</h3>
@@ -55,23 +60,23 @@ const Greeting = ({ id, fetchedUser, go }: Props) => {
                   onChange={(e) => setPhrase(e.target.value)}
                 />
               </FormItem>
-              <Button
-                onClick={createNote}
-                size="m"
-              >Создать фразу</Button>
+              <Button onClick={createNote} size="m">
+                Создать фразу
+              </Button>
             </div>
             <Button
               mode="secondary"
               size="m"
               className="form__later"
-              
               onClick={() => go("main")}
             >
               позже
             </Button>
           </div>
           {/* Change action to use app inherit description */}
-          <div><a href="//sent.bouhartsev.top">Узнать больше о приложении</a></div>
+          <div>
+            <a href="//sent.bouhartsev.top">Узнать больше о приложении</a>
+          </div>
         </div>
       )}
     </Panel>

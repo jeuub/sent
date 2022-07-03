@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import bridge from "@vkontakte/vk-bridge";
 import {
   View,
@@ -24,7 +24,6 @@ import Login from "./panels/Login/Login";
 import Greeting from "./panels/Greeting/Greeting";
 import Main from "./panels/Main/Main";
 import { updateThemeSetter, getTheme, updateApiToken } from "./utils";
-
 
 const errorLink = onError(({ graphqlErrors, networkErrors }) => {
   if (graphqlErrors) {
@@ -72,17 +71,18 @@ const App = () => {
 
   updateThemeSetter(setTheme);
 
-  let navigate = useNavigate();
-  if (bridge.isStandalone()) {
-    console.log("site");
-    navigate('/');
-  }
-
   useEffect(() => {
+    // let navigate = useNavigate();
+    // if (bridge.isStandalone() && window.location.pathname != "/") {
+    //   console.log("site");
+    //   navigate("/");
+    // }
+
     bridge.subscribe(({ detail: { type, data } }) => {
       if (type === "VKWebAppUpdateConfig") {
         if (!!data?.scheme) setScheme(data.scheme);
       }
+      
     });
     async function fetchData() {
       const user = await bridge.send("VKWebAppGetUserInfo");
@@ -90,6 +90,7 @@ const App = () => {
       setPopout(null);
     }
     fetchData();
+    // bridge.send("VKWebAppGetUserInfo").then(data => console.log(data)).catch(error=>console.log(error));
 
     if (!localStorage.getItem("vk-api-token")) updateApiToken();
 
@@ -99,8 +100,10 @@ const App = () => {
   }, []);
 
   const go = (target) => {
-    if (activePanel!=target)
+    if (activePanel != target) {
+      console.log(activePanel, target);
       setActivePanel(target);
+    }
   };
 
   return (

@@ -8,9 +8,10 @@ import NotFound from "./components/NotFound/NotFound";
 import "./index.css";
 
 // Init VK  Mini App
-bridge.send("VKWebAppInit").then(data => {
-  console.log(data);
-}).catch(err => console.log(err));
+bridge.send("VKWebAppInit");
+// .then(data => {
+//   console.log(data);
+// }).catch(err => console.log(err));
 
 ReactDOM.render(
   <BrowserRouter>

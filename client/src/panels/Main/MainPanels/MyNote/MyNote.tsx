@@ -113,8 +113,8 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
               </SplitLayout>
               <SimpleCell
                 before={
-                  <span>
-                    Респекты: <b> {favoritedBy?.length}</b>
+                  <span style={{fontWeight: "var(--vkui--font_weight_accent3,400)"}}>
+                    Респекты: {favoritedBy?.length}
                   </span>
                 }
               >

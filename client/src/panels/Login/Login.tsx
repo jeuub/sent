@@ -78,7 +78,7 @@ const Login = ({ id, go, fetchedUser }: any) => {
 
   useEffect(() => {
     setTimeout(() => {
-      localStorage.getItem("sent-token")
+      authorized
         ? go("greeting")
         : setError(
             "Вероятно, произошла ошибка, попробуйте обновить страницу или перезайти"
@@ -89,7 +89,7 @@ const Login = ({ id, go, fetchedUser }: any) => {
   return (
     <Panel id={id} className="login__panel">
       <div className="login__spinner-wrapper">
-        <Spinner size="large" style={{ margin: "20px 0" }} />
+        {/* <Spinner size="large" style={{ margin: "20px 0" }} /> */}
         {error ? error : null}
       </div>
     </Panel>

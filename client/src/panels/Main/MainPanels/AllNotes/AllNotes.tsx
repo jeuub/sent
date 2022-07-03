@@ -36,7 +36,6 @@ const AllNotes = ({ id, fetchedUser }: props) => {
   // const [mode, setMode] = useState("all");
 
   const updNotes = () => {
-    console.log(search);
     setNotes(
       data?.noteFeed?.notes
         ?.filter(
@@ -82,6 +81,7 @@ const AllNotes = ({ id, fetchedUser }: props) => {
         <Group>
           {openContext && (
             <Search
+              autoFocus
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value.toLowerCase());
@@ -118,7 +118,7 @@ const AllNotes = ({ id, fetchedUser }: props) => {
                 key={e.author.username}
               />
             ))
-          ) : (
+          ) : !!openContext && (
             <Placeholder>Ничего не найдено</Placeholder>
           )}
         </Group>
