@@ -10,13 +10,14 @@ import {
   Spinner,
   Search,
   Cell,
-  FixedLayout,
+  Placeholder,
   Group,
 } from "@vkontakte/vkui";
 import { Icon28AddOutline, Icon24Done, Icon16Dropdown } from "@vkontakte/icons";
 import { FETCH_FEED } from "../../../../GraphQL/Queries";
 import { useLazyQuery } from "@apollo/client";
 import Note from "../../../../components/Note";
+import Logo from "../../../../components/Logo";
 import "./style.css";
 
 interface props {
@@ -28,13 +29,33 @@ const AllNotes = ({ id, fetchedUser }: props) => {
   const [getFeed, { loading, error, data }] = useLazyQuery(FETCH_FEED, {
     fetchPolicy: "no-cache",
   });
-  useEffect(() => {
-    getFeed();
-    console.log("get feed");
-  }, []);
+  const [notes, setNotes] = useState<any[]>([]);
 
   const [openContext, setOpenContext] = useState(false);
-  const [mode, setMode] = useState("all");
+  const [search, setSearch] = useState("");
+  // const [mode, setMode] = useState("all");
+
+  const updNotes = () => {
+    console.log(search);
+    setNotes(
+      data?.noteFeed?.notes
+        ?.filter(
+          (el: any) =>
+            el.content?.toLowerCase().includes(search) ||
+            el.author?.username.toLowerCase().includes(search)
+        )
+        .reverse()
+    );
+  };
+
+  useEffect(() => {
+    getFeed();
+  }, []);
+
+  useEffect(() => {
+    updNotes();
+  }, [data, search]);
+
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
@@ -46,7 +67,7 @@ const AllNotes = ({ id, fetchedUser }: props) => {
           }
         >
           <PanelHeaderContent
-            onClick={() => setOpenContext(!openContext)}
+            onClick={() => {if (openContext) setSearch(""); setOpenContext(!openContext);}}
             aside={
               <Icon16Dropdown
                 style={{
@@ -55,15 +76,16 @@ const AllNotes = ({ id, fetchedUser }: props) => {
               />
             }
           >
-            all sent.
+            all <Logo />
           </PanelHeaderContent>
         </PanelHeader>
         <Group>
-          {/* <FixedLayout vertical="top"> */}
           {openContext && (
             <Search
-              value={""}
-              onChange={() => {}}
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value.toLowerCase());
+              }}
               after={null}
               style={{
                 position: "sticky",
@@ -73,38 +95,6 @@ const AllNotes = ({ id, fetchedUser }: props) => {
               }}
             />
           )}
-          {/* </FixedLayout> */}
-          {/* <PanelHeaderContext
-          opened={openContext}
-          onClose={() => setOpenContext(!openContext)}
-        >
-          <List>
-            <Cell
-              after={
-                mode === "all" ? <Icon24Done fill="var(--accent)" /> : null
-              }
-              onClick={() => {
-                setMode("all");
-                setOpenContext(false);
-              }}
-              data-mode="all"
-            >
-              Показать все
-            </Cell>
-            <Cell
-              after={
-                mode === "managed" ? <Icon24Done fill="var(--accent)" /> : null
-              }
-              onClick={() => {
-                setMode("managed");
-                setOpenContext(false);
-              }}
-              data-mode="managed"
-            >
-              Поиск
-            </Cell>
-          </List>
-        </PanelHeaderContext> */}
           {loading ? (
             <Spinner
               size="large"
@@ -115,21 +105,21 @@ const AllNotes = ({ id, fetchedUser }: props) => {
                 transform: "translate(-50%)",
               }}
             />
+          ) : !!notes?.length ? (
+            notes.map((e: any) => (
+              <Note
+                favoritedBy={e.favoritedBy}
+                fetchedUser={fetchedUser}
+                author={e.author}
+                content={e.content}
+                date={new Date(e.createdAt)}
+                favoriteCount={e.favoriteCount}
+                id={e.id}
+                key={e.author.username}
+              />
+            ))
           ) : (
-            data?.noteFeed?.notes
-              ?.reverse()
-              .map((e: any) => (
-                <Note
-                  favoritedBy={e.favoritedBy}
-                  fetchedUser={fetchedUser}
-                  author={e.author}
-                  content={e.content}
-                  date={new Date(e.createdAt)}
-                  favoriteCount={e.favoriteCount}
-                  id={e.id}
-                  key={e.author.username}
-                />
-              ))
+            <Placeholder>Ничего не найдено</Placeholder>
           )}
         </Group>
       </Panel>

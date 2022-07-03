@@ -23,8 +23,8 @@ import {
 } from "@vkontakte/vkui";
 import { useMutation, useQuery } from "@apollo/client";
 import { ME } from "../../../../GraphQL/Queries";
-import quot from "../../../../img/quot.svg";
 import { setTheme, getUsersData, getTheme } from "../../../../utils";
+import Logo from "../../../../components/Logo";
 
 interface props {
   id: string;
@@ -49,23 +49,20 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
     }
   }, [meData]);
   const themes = [
-    { label: "как в ВК", value: "auto" },
+    { label: "как в ВК", value: "" },
     { label: "светлая", value: "light" },
     { label: "тёмная", value: "dark" },
   ];
   return (
     <View id={id} activePanel={id}>
       <Panel id={id}>
-        <PanelHeader>my sent.</PanelHeader>
+        <PanelHeader>my <Logo /></PanelHeader>
         <Group>
           <Header mode="secondary">Личный кабинет</Header>
           <SimpleCell
             disabled
             after={
-              <FormItem>
                 <Select
-                  // зафиксировать размер, убрать отступ справа
-
                   defaultValue={getTheme()}
                   defaultChecked={true}
                   options={themes}
@@ -73,7 +70,6 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
                     setTheme(e?.target?.value)
                   }}
                 />
-              </FormItem>
             }
           >
             Тема
@@ -100,20 +96,6 @@ const MyNote = ({ id, fetchedUser, go }: props) => {
             >
               <CardGrid size="l">
                 <Card mode="shadow" style={{ minHeight: "2rem", padding: "15px" }}>
-                  {/* <img
-                    src={quot}
-                    alt="Quotation mark"
-                    style={{
-                      width: "25px",
-                      float: "left",
-                      marginLeft: "10px",
-                      marginRight: "10px",
-                      marginTop: "5px",
-                    }}
-                  /> */}
-                  {/* <blockquote style={{ minHeight: "2rem", padding: "15px" }}>
-                    {sentence}
-                  </blockquote> */}
                   {sentence}
                 </Card>
               </CardGrid>

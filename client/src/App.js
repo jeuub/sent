@@ -82,7 +82,6 @@ const App = () => {
     bridge.subscribe(({ detail: { type, data } }) => {
       if (type === "VKWebAppUpdateConfig") {
         if (!!data?.scheme) setScheme(data.scheme);
-        // else setScheme("client_light");
       }
     });
     async function fetchData() {
@@ -100,7 +99,8 @@ const App = () => {
   }, []);
 
   const go = (target) => {
-    setActivePanel(target);
+    if (activePanel!=target)
+      setActivePanel(target);
   };
 
   return (
